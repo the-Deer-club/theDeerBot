@@ -1,6 +1,6 @@
 import { BAD_WORDS, GREETINGS } from './words'
 
-interface Message {
+type Message {
   type: string
   message: string
 }
