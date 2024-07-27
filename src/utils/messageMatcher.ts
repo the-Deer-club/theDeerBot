@@ -1,6 +1,6 @@
 import { BAD_WORDS, GREETINGS } from './words'
 
-type Message {
+type Message = {
   type: string
   message: string
 }
