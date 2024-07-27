@@ -1,4 +1,4 @@
-import { bad_words, greetings } from './words'
+import { BAD_WORDS, GREETINGS } from './words'
 
 interface Message {
   type: string
@@ -6,11 +6,11 @@ interface Message {
 }
 
 function isBadWord(message: string): boolean {
-  return bad_words.includes(message)
+  return BAD_WORDS.includes(message)
 }
 
 function isGreeting(message: string): boolean {
-  return greetings.includes(message)
+  return GREETINGS.includes(message)
 }
 
 function checkMessage(message: string): Message {

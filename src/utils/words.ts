@@ -1,4 +1,4 @@
-const bad_words = [
+const BAD_WORDS = [
     'cặc',
     'lồn',
     'địt',
@@ -39,7 +39,7 @@ const bad_words = [
     'thằng thần kinh',
   ]
   
-  const greetings = [
+  const GREETINGS = [
     'xin chào',
     'hello',
     'hi',
@@ -48,7 +48,7 @@ const bad_words = [
     'hello mọi người',
     'hi mọi người',
   ]
-  const sad_reactions = [
+  const SAD_REACTIONS = [
     'sad',
     'hic',
     'huhu',
@@ -61,7 +61,7 @@ const bad_words = [
     'bùn',
   ]
   
-  export { bad_words, greetings, sad_reactions }
+  export { BAD_WORDS, SAD_REACTIONS, GREETINGS}
   
   
   
