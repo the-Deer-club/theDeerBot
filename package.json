@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf ./build && tsc",
-    "start": "npm run build && node build/index.js",
+    "start": "tsx --watch src/index.ts",
     "start:dev": "npx nodemon"
   },
   "dependencies": {
@@ -24,7 +24,8 @@
     "prettier": "^3.3.3"
   },
   "keywords": [],
-  "author": "",
+  "author": "Lamtailoi2 <lamtailoi11141@gmail.com>",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "repository": "https://github.com/the-Deer-club/theDeerBot.git"
 }
