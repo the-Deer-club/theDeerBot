@@ -9,6 +9,18 @@ const commands = [
     name: 'ping',
     description: 'Replies with Pong!',
   },
+  {
+    name: 'play',
+    description: 'Play a song',
+    options: [
+      {
+        name: 'song',
+        type: 3,
+        description: 'The song you want to play',
+        required: true,
+      },
+    ],
+  },
 ]
 
 async function slashRegister(client: Client) {
@@ -18,9 +30,12 @@ async function slashRegister(client: Client) {
     const guilds = await client.guilds.fetch()
     for (const guild of guilds.values()) {
       const SERVER_ID = guild.id
-      await rest.put(Routes.applicationGuildCommands(BOT_ID as string, SERVER_ID), {
-        body: commands,
-      })
+      await rest.put(
+        Routes.applicationGuildCommands(BOT_ID as string, SERVER_ID),
+        {
+          body: commands,
+        },
+      )
       console.log(`Registered commands for guild ${SERVER_ID}`)
     }
   } catch (error) {
