@@ -1,7 +1,9 @@
-import { Message } from 'discord.js'
+import { Message, Events } from 'discord.js'
 import { checkMessage } from '../utils/messageMatcher'
 
-async function textingEvents(message: Message) {
+const name = Events.MessageCreate
+const once = false
+async function execute(message: Message) {
   try {
     if (checkMessage(message.content.toLocaleLowerCase()).type === 'bad_word') {
       message.react('🤬')
@@ -16,4 +18,4 @@ async function textingEvents(message: Message) {
   }
 }
 
-export { textingEvents }
+export { name, once, execute }

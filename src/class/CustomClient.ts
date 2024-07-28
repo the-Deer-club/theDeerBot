@@ -1,12 +1,20 @@
-import { Client, ClientOptions, Collection } from 'discord.js'
+import { Client, Collection } from 'discord.js'
 import { Player } from 'discord-player'
 
-export class CustomClient extends Client {
-  public player?: Player
-  public commands?: Collection<any, any>
-  constructor(options: ClientOptions) {
+class CustomClient extends Client {
+  public commands: Collection<string, any>
+  public player: Player
+
+  constructor(options: any) {
     super(options)
-    this.player = new Player(this)
     this.commands = new Collection()
+    this.player = new Player(this, {
+      ytdlOptions: {
+        quality: 'highestaudio',
+        highWaterMark: 1 << 25,
+      },
+    })
   }
 }
+
+export { CustomClient }

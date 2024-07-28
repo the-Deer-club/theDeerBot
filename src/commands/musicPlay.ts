@@ -6,7 +6,7 @@ import {
 } from 'discord.js'
 import { joinVoiceChannel } from '@discordjs/voice'
 
-export const musicPlay = async (client: Client, interaction: Interaction) => {
+export const musicPlay = async (interaction: Interaction, client: Client) => {
   if (!interaction.isChatInputCommand()) return
 
   const chatInputCommand = interaction as ChatInputCommandInteraction

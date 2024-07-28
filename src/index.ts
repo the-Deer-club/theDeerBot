@@ -1,19 +1,18 @@
 import { Events, GatewayIntentBits } from 'discord.js'
-import { textingEvents } from './events/texting'
-import slashRegister from './commands/slashRegister'
-import { pingCommand } from './commands/ping'
-import { musicPlay } from './commands/musicPlay'
+import { fileURLToPath } from 'url'
 import fs from 'fs'
 import path from 'path'
 import 'dotenv/config'
 import { CustomClient } from './class/CustomClient'
+// import slashRegister from './commands/slashRegister'
+import dynamicImport from './utils/dynamicImport'
+import slashRegister from './commands/slashRegister'
+const TOKEN = process.env.DISCORD_BOT_TOKEN as string
 
-const TOKEN = process.env.DISCORD_BOT_TOKEN
-
-// const __filename = fileURLToPath(import.meta.url)
-// const __dirname = path.dirname(__filename)
-// const commandsPath = path.join(__dirname, 'commands')
-// const eventsPath = path.join(__dirname, 'events')
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const commandsPath = path.join(__dirname, 'commands')
+const eventsPath = path.join(__dirname, 'events')
 
 const client = new CustomClient({
   intents: [
@@ -21,38 +20,51 @@ const client = new CustomClient({
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.DirectMessages,
     GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildVoiceStates,
   ],
 })
-// const commandsFile = fs
-//   .readdirSync(commandsPath)
-//   .filter(file => file.endsWith('.ts'))
-// const eventsFile = fs
-//   .readdirSync(eventsPath)
-//   .filter(file => file.endsWith('.ts'))
 
-client.on(Events.MessageCreate, async message => {
-  if (message.author.bot) return
-  await textingEvents(message)
-})
+// Dynamically import commands
+const commandFiles = fs
+  .readdirSync(commandsPath)
+  .filter(file => file.endsWith('.ts'))
+for (const file of commandFiles) {
+  const filePath = path.join(commandsPath, file)
+  dynamicImport(filePath)
+    .then(command => {
+      if (command.execute) {
+        client.on('interactionCreate', async interaction => {
+          command.execute(interaction)
+        })
+      } else {
+        console.log(
+          `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`,
+        )
+      }
+    })
+    .catch(err => console.error(`Failed to load command ${filePath}: ${err}`))
+}
 
-client.on('interactionCreate', interaction => {
-  if (interaction.isCommand()) {
-    switch (interaction.commandName) {
-      case 'ping':
-        pingCommand(interaction)
-        break
-      case 'play':
-        musicPlay(client, interaction)
-        break
-      default:
-        break
-    }
-  }
-})
+// Dynamically import events
+const eventFiles = fs
+  .readdirSync(eventsPath)
+  .filter(file => file.endsWith('.ts'))
+for (const file of eventFiles) {
+  const filePath = path.join(eventsPath, file)
+  dynamicImport(filePath)
+    .then(event => {
+      if (event.once) {
+        client.once(event.name, (...args) => event.execute(...args, client))
+      } else {
+        client.on(event.name, (...args) => event.execute(...args, client))
+      }
+    })
+    .catch(err => console.error(`Failed to load event ${filePath}: ${err}`))
+}
 
-client.once(Events.ClientReady, async clientReady => {
-  console.log(`client listening at ${client.user?.displayName}`)
+client.once(Events.ClientReady, async () => {
+  console.log(`client listening at ${client.user?.tag}`)
   await slashRegister(client)
 })
 
-client.login(TOKEN)
+client.login(TOKEN).catch(console.error)
