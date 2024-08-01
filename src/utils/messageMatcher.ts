@@ -6,11 +6,13 @@ type Message = {
 }
 
 function isBadWord(message: string): boolean {
-  return BAD_WORDS.includes(message)
+  const msgArr = message.split(' ');
+  return msgArr.some(msg => BAD_WORDS.includes(msg));
 }
 
 function isGreeting(message: string): boolean {
-  return GREETINGS.includes(message)
+  const msgArr = message.split(' ');
+  return msgArr.some(msg => GREETINGS.includes(msg));
 }
 
 function checkMessage(message: string): Message {
