@@ -15,10 +15,10 @@ function isGreeting(message: string): boolean {
 
 function checkMessage(message: string): Message {
   if (isBadWord(message)) {
-    return { type: 'bad_word', message }
+    return { type: 'bad_words', message }
   }
   if (isGreeting(message)) {
-    return { type: 'greeting', message }
+    return { type: 'greetings', message }
   }
   return { type: 'normal', message }
 }

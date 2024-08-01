@@ -1,13 +1,14 @@
 import { isAbsolute } from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { EOS } from './enum'
 import os from 'os'
 
-export default function dynamicImport(path: string) {
+export default async function dynamicImport(path: string): Promise<string> {
   let newPath = path
-  if (os.platform() === 'win32') {
+  if (os.platform() === EOS.WINDOWS) {
     newPath = 'file://' + path
   }
-  return import(
+  return await import(
     isAbsolute(newPath) ? pathToFileURL(newPath).toString() : newPath
   )
 }
