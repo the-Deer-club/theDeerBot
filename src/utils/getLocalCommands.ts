@@ -1,7 +1,8 @@
 import path from 'path'
 import { getAllFiles } from './getAllFiles'
+import type { CustomCommand } from './types'
 
-export default async (excpt?: any): Promise<[]> => {
+export default async (excpt?: any): Promise<CustomCommand[]> => {
   const localCommands: any = []
   const commandCategories = getAllFiles(
     path.join(__dirname, '..', 'commands'),

@@ -1,4 +1,4 @@
-import type { Client, CommandInteraction } from 'discord.js'
+import type { Client, CommandInteraction,  } from 'discord.js'
 
 export type CustomCommand = {
   name: string
@@ -6,7 +6,7 @@ export type CustomCommand = {
   deleted?: boolean
   options?: CommandOptions[]
 
-  execute?: (client: Client, interaction: CommandInteraction) => Promise<any>
+  execute: (client: Client, interaction: CommandInteraction) => Promise<any>
 }
 
 type CommandOptions = {

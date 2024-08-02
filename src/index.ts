@@ -1,8 +1,8 @@
 import { GatewayIntentBits } from 'discord.js'
-
 import 'dotenv/config'
 import { eventHandler } from './handlers/eventHanlder'
 import { CustomClient } from './class/CustomClient'
+import { Player } from 'discord-player'
 const TOKEN = process.env.DISCORD_BOT_TOKEN
 
 const client = new CustomClient({
@@ -14,6 +14,9 @@ const client = new CustomClient({
     GatewayIntentBits.GuildVoiceStates,
   ],
 })
+
+client.player = new Player(client)
+
 
 eventHandler(client)
 

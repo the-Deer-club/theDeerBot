@@ -21,13 +21,11 @@ export default async (
   if (!Array.isArray(localCommands)) {
     throw new Error('Local commands not found')
   }
-  const cmdArr = Array.from(localCommands)
-  const command = cmdArr.find(
-    (cmd: CustomCommand) => cmd.name === interaction.commandName,
-  )
+ const command = localCommands.find((command: CustomCommand) => command.name === interaction.commandName)
   if (!command) {
     console.log('Command not found')
-    return
+    return;
   }
-  command.execute(client, interaction as CommandInteraction)
+  console.log(localCommands);
+  await command.execute(client, interaction as CommandInteraction)
 }
