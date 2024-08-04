@@ -10,7 +10,7 @@ export default async (client: Client): Promise<any> => {
     if (!Array.isArray(localCommands)) {
       throw new Error('Local commands not found')
     }
-    const SERVER = process.env.SERVER!
+    const SERVER = process.env.SERVER || ""
     const applicationCommands = await getApplicationCommands(client, SERVER)
     for (const localCommand of localCommands) {
       const { name, description, options } = localCommand
