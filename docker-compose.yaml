@@ -1,0 +1,19 @@
+services:
+  the-deer-bot:
+    container_name: the_deer_bot
+    image: ${DOCKER_URL}/deer-bot:latest
+    environment:
+      DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN}
+      DISCORD_BOT_ID: ${DISCORD_BOT_ID}
+      SERVER: ${SERVER}
+    restart: always
+    networks:
+      the-deer-networks:
+
+
+networks:
+  the-deer-networks:
+    name: the-deer-networks
+    ipam:
+      driver: default
+    
