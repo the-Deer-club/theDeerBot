@@ -1,7 +1,7 @@
 import type { Client } from 'discord.js'
 import getLocalCommands from '../../utils/getLocalCommands'
 import getApplicationCommands from '../../utils/getApplicationCommands'
-import { testServer } from '../../../config'
+
 
 export default async (client: Client): Promise<any> => {
   try {
@@ -10,7 +10,8 @@ export default async (client: Client): Promise<any> => {
     if (!Array.isArray(localCommands)) {
       throw new Error('Local commands not found')
     }
-    const applicationCommands = await getApplicationCommands(client, testServer)
+    const SERVER = process.env.SERVER!
+    const applicationCommands = await getApplicationCommands(client, SERVER)
     for (const localCommand of localCommands) {
       const { name, description, options } = localCommand
       const existingCommand = applicationCommands.cache.find(
