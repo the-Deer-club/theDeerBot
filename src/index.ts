@@ -15,8 +15,12 @@ const client = new CustomClient({
   ],
 })
 
-client.player = new Player(client)
-
+client.player = new Player(client, {
+  ytdlOptions: {
+    quality: 'highestaudio',
+    highWaterMark: 1 << 25,
+  },
+})
 
 eventHandler(client)
 

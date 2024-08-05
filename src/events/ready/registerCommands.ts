@@ -2,7 +2,6 @@ import type { Client } from 'discord.js'
 import getLocalCommands from '../../utils/getLocalCommands'
 import getApplicationCommands from '../../utils/getApplicationCommands'
 
-
 export default async (client: Client): Promise<any> => {
   try {
     const localCommands = await getLocalCommands()

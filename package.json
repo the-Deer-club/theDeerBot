@@ -9,8 +9,10 @@
     "dev": "tsx --watch src/index.ts"
   },
   "dependencies": {
+    "@discord-player/extractor": "^4.5.0",
     "@discordjs/voice": "^0.17.0",
     "discord-player": "^6.7.0",
+    "discord-player-youtubei": "^1.2.4",
     "discord.js": "^14.14.1",
     "dotenv": "^16.4.4",
     "ytdl-core": "^4.11.5"
