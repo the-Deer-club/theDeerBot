@@ -31,7 +31,7 @@ const playCommand: CustomCommand = {
         )
       }
       const clientPlayer = (client as CustomClient).player
-      clientPlayer.extractors.register(YoutubeiExtractor, {})
+      await clientPlayer.extractors.register(YoutubeiExtractor, {})
       let queue
       if (interaction.guild) {
         queue = clientPlayer.nodes.create(interaction.guild)
