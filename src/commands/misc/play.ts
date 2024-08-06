@@ -4,7 +4,6 @@ import type { CustomClient } from '../../class/CustomClient'
 import { EmbedBuilder } from 'discord.js'
 import { QueryType } from 'discord-player'
 import { YoutubeiExtractor } from 'discord-player-youtubei'
-import { createAudioResource } from '@discordjs/voice'
 
 const playCommand: CustomCommand = {
   name: 'play',
@@ -52,6 +51,7 @@ const playCommand: CustomCommand = {
 
       const song = result.tracks[0]
       queue?.addTrack(song)
+
       embed
         .setDescription(`Added **[${song.title}]** to the queue`)
         .setThumbnail(song.thumbnail)

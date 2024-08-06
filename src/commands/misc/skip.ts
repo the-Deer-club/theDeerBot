@@ -1,4 +1,4 @@
-import type { Client, CommandInteraction, GuildMember } from 'discord.js'
+import type { Client, CommandInteraction } from 'discord.js'
 import type { CustomCommand } from '../../utils/types'
 import type { CustomClient } from '../../class/CustomClient'
 import { EmbedBuilder } from 'discord.js'
@@ -21,12 +21,12 @@ const skipCommand: CustomCommand = {
         await interaction.reply('No song is currently playing!')
         return
       }
-      console.log("Before",queue);
+      console.log('Before', queue)
       queue.node.skip()
       queue.removeTrack(currentSong)
-      console.log("After",queue);
-      
-      interaction.reply({
+      console.log('After', queue)
+
+      await interaction.reply({
         embeds: [
           new EmbedBuilder()
             .setDescription(`Skipped **${currentSong.title}`)
