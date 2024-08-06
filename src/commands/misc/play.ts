@@ -4,6 +4,8 @@ import type { CustomClient } from '../../class/CustomClient'
 import { EmbedBuilder } from 'discord.js'
 import { QueryType } from 'discord-player'
 import { YoutubeiExtractor } from 'discord-player-youtubei'
+import { createAudioResource } from '@discordjs/voice'
+
 const playCommand: CustomCommand = {
   name: 'play',
   description: 'Play a song!',
@@ -43,18 +45,18 @@ const playCommand: CustomCommand = {
         requestedBy: interaction.user,
         searchEngine,
       })
-
       if (!result.tracks.length) {
         await interaction.reply('No results found!')
         return
       }
+
       const song = result.tracks[0]
       queue?.addTrack(song)
       embed
         .setDescription(`Added **[${song.title}]** to the queue`)
         .setThumbnail(song.thumbnail)
         .setFooter({ text: `Duration: ${song.duration}` })
-      if (!queue?.isPlaying) await queue?.play(song)
+      await queue?.play(song)
       await interaction.reply({
         embeds: [embed],
       })

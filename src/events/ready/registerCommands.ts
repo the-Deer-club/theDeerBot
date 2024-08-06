@@ -9,27 +9,27 @@ export default async (client: Client): Promise<any> => {
     if (!Array.isArray(localCommands)) {
       throw new Error('Local commands not found')
     }
-    const SERVER = process.env.SERVER ?? ""
-    const applicationCommands = await getApplicationCommands(client, SERVER)
-    for (const localCommand of localCommands) {
-      const { name, description, options } = localCommand
-      const existingCommand = applicationCommands.cache.find(
-        (command: any) => command.name === name,
-      )
+    const guildIds = client.guilds.cache.map(guild => guild.id)
+    for (const id of guildIds) {
+      const applicationCommands = await getApplicationCommands(client, id)
+      for (const localCommand of localCommands) {
+        const { name, description, options } = localCommand
+        const existingCommand = applicationCommands.cache.find(
+          (command: any) => command.name === name,
+        )
 
-      if (existingCommand) {
-        if (Object(localCommands).deleted) {
-          await applicationCommands.delete(existingCommand.id)
-          continue
+        if (existingCommand) {
+          if (Object(localCommands).deleted) {
+            await applicationCommands.delete(existingCommand.id)
+            continue
+          }
         }
+        await applicationCommands.create({
+          name,
+          description,
+          options,
+        })
       }
-      await applicationCommands.create({
-        name,
-        description,
-        options,
-      })
-      
-      
     }
   } catch (err) {
     console.error(err)
