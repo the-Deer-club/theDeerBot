@@ -1,30 +1,27 @@
-import { Client, Events, GatewayIntentBits, REST } from 'discord.js'
-import { textingEvents } from './events/texting'
-import slashRegister from './commands/slashRegister'
-import { pingCommand } from './commands/commands'
+import { GatewayIntentBits } from 'discord.js'
 import 'dotenv/config'
-
+import { eventHandler } from './handlers/eventHanlder'
+import { CustomClient } from './class/CustomClient'
+import { Player } from 'discord-player'
 const TOKEN = process.env.DISCORD_BOT_TOKEN
 
-const client = new Client({
+const client = new CustomClient({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.DirectMessages,
     GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildVoiceStates
   ],
 })
 
-client.on(Events.MessageCreate, async message => {
-  if (message.author.bot) return
-  await textingEvents(message)
+client.player = new Player(client, {
+  ytdlOptions: {
+    quality: 'highestaudio',
+    highWaterMark: 1 << 25,
+  },
 })
 
-client.on('interactionCreate', interaction => pingCommand(interaction))
+eventHandler(client)
 
-client.once(Events.ClientReady, async clientReady => {
-  console.log(`client listening at ${client.user?.displayName}`)
-  await slashRegister(client)
-})
-
-client.login(TOKEN)
+client.login(TOKEN).catch(console.error)

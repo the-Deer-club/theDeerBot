@@ -2,6 +2,7 @@ const BAD_WORDS = [
   'buồi',
   'buoi',
   'dau buoi',
+  'đầu buồi',
   'daubuoi',
   'caidaubuoi',
   'nhucaidaubuoi',
