@@ -46,7 +46,7 @@ const playCommand: CustomCommand = {
         requestedBy: interaction.user,
         searchEngine,
       })
-      if (!result.tracks.length) {
+      if (!result?.tracks?.length) {
         await interaction.reply('No results found!')
         return
       }
