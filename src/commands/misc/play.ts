@@ -39,7 +39,7 @@ const playCommand: CustomCommand = {
       }
 
       if (!queue?.connection) await queue?.connect(member.voice.channel)
-      
+
       const embed = new EmbedBuilder()
       const searchEngine = QueryType.AUTO
       const result = await clientPlayer.search(url, {
@@ -53,16 +53,17 @@ const playCommand: CustomCommand = {
 
       const song = result.tracks[0]
       queue?.addTrack(song)
-      console.log(queue?.tracks);
-      
-      embed
-        .setDescription(`Added **[${song.title}]** to the queue`)
-        .setThumbnail(song.thumbnail)
-        .setFooter({ text: `Duration: ${song.duration}` })
-      await queue?.play(song)
-      await interaction.reply({
-        embeds: [embed],
-      })
+      if (!queue?.isEmpty()) {
+        embed
+          .setDescription(`Added **[${song.title}]** to the queue`)
+          .setThumbnail(song.thumbnail)
+          .setFooter({ text: `Duration: ${song.duration}` })
+        await queue?.play(song)
+
+        await interaction.reply({
+          embeds: [embed],
+        })
+      }
     } catch (error) {
       console.log(error)
     }
