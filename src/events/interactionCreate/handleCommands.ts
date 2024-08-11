@@ -1,7 +1,7 @@
 import type { Client, CommandInteraction, Interaction } from 'discord.js'
 import type { CustomCommand } from '../../utils/types'
 import { InteractionType } from 'discord.js'
-import getLocalCommands from '../../utils/getLocalCommands'
+import commandList from '../../commands'
 export default async (
   client: Client,
   interaction: Interaction,
@@ -12,20 +12,21 @@ export default async (
   if (!guildId) {
     return
   }
-  const localCommands = await getLocalCommands()
 
   if (interaction.type !== InteractionType.ApplicationCommand) {
     console.log('Interaction is not a command')
     return
   }
-  if (!Array.isArray(localCommands)) {
+  if (!Array.isArray(commandList)) {
     throw new Error('Local commands not found')
   }
- const command = localCommands.find((command: CustomCommand) => command.name === interaction.commandName)
+  const command = commandList.find(
+    (command: CustomCommand) => command.name === interaction.commandName,
+  )
   if (!command) {
     console.log('Command not found')
-    return;
+    return
   }
-  console.log(localCommands);
+  console.log(commandList)
   await command.execute(client, interaction as CommandInteraction)
 }
