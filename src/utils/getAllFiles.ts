@@ -20,7 +20,6 @@ export const getAllFiles = (
     }
   } catch (error) {
     console.error(`Error reading directory: ${directory}`)
-    console.error(error)
   }
   
   return fileNames
