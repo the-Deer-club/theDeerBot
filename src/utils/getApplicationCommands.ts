@@ -1,6 +1,5 @@
 import type {
     Client,
-   
   } from 'discord.js';
   
   export default async (client: Client, guildID: string): Promise<any> => {

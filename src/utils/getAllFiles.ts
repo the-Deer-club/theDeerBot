@@ -19,8 +19,7 @@ export const getAllFiles = (
     }
     }
   } catch (error) {
-    console.error(`Error reading directory: ${directory}`)
-    console.error(error)
+    console.error(`Error reading directory: ${directory}`, error)
   }
   
   return fileNames

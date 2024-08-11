@@ -22,9 +22,7 @@ const banCommand: CustomCommand = {
     await interaction.deferReply()
     const reply = await interaction.editReply('Pong!')
     const ping = reply.createdTimestamp - interaction.createdTimestamp
-    await interaction.editReply(`Pong! \`${ping}ms\``).catch(err => {
-      console.log(err)
-    })
+    await interaction.editReply(`Pong! \`${ping}ms\``).catch(console.error)
   },
 }
 
