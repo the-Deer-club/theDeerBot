@@ -51,7 +51,8 @@ const playCommand: CustomCommand = {
 
       const song = result.tracks[0]
       queue?.addTrack(song)
-
+      console.log(queue?.tracks);
+      
       embed
         .setDescription(`Added **[${song.title}]** to the queue`)
         .setThumbnail(song.thumbnail)

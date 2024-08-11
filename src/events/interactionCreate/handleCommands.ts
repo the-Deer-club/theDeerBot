@@ -7,29 +7,33 @@ import { EventEnum } from '../../utils/enum'
 const handleCommands: CustomEvent = {
   type: EventEnum.INTERACTION,
   cb: async (client: Client, interaction: Interaction) => {
-    const guildId = client.guilds.cache.first()?.id
-    console.log(guildId)
+    try {
+      const guildId = client.guilds.cache.first()?.id
+      console.log(guildId)
 
-    if (!guildId) {
-      return
-    }
+      if (!guildId) {
+        return
+      }
 
-    if (interaction.type !== InteractionType.ApplicationCommand) {
-      console.log('Interaction is not a command')
-      return
+      if (interaction.type !== InteractionType.ApplicationCommand) {
+        console.log('Interaction is not a command')
+        return
+      }
+      if (!Array.isArray(commandList)) {
+        throw new Error('Local commands not found')
+      }
+      const command = commandList.find(
+        (command: CustomCommand) => command.name === interaction.commandName,
+      )
+      if (!command) {
+        console.log('Command not found')
+        return
+      }
+      console.log(commandList)
+      await command.execute(client, interaction as CommandInteraction)
+    } catch (error) {
+      console.log(error)
     }
-    if (!Array.isArray(commandList)) {
-      throw new Error('Local commands not found')
-    }
-    const command = commandList.find(
-      (command: CustomCommand) => command.name === interaction.commandName,
-    )
-    if (!command) {
-      console.log('Command not found')
-      return
-    }
-    console.log(commandList)
-    await command.execute(client, interaction as CommandInteraction)
   },
 }
 
