@@ -37,7 +37,9 @@ const playCommand: CustomCommand = {
       if (interaction.guild) {
         queue = clientPlayer.nodes.create(interaction.guild)
       }
+
       if (!queue?.connection) await queue?.connect(member.voice.channel)
+      
       const embed = new EmbedBuilder()
       const searchEngine = QueryType.AUTO
       const result = await clientPlayer.search(url, {
