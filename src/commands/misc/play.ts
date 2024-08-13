@@ -22,13 +22,13 @@ const playCommand: CustomCommand = {
 
       const song = interaction.options.getString('song')
       if (!song) {
-        await interaction.reply('Please input your song!')
+        await interaction.reply('Vui lòng nhập tên bài hát!')
         return
       }
 
       const member = interaction.member as GuildMember
       if (!member.voice.channel) {
-        await interaction.reply('You need to join a voice channel first!')
+        await interaction.reply('Vào phòng đi tui hát cho nghe, :3')
         return
       }
 
@@ -47,7 +47,7 @@ const playCommand: CustomCommand = {
       })
 
       if (!searchResult.tracks.length) {
-        await interaction.reply('No results found!')
+        await interaction.reply('Không tìm thấy bài hát!')
         return
       }
 
@@ -66,9 +66,7 @@ const playCommand: CustomCommand = {
       await interaction.reply({ embeds: [embed] })
     } catch (error) {
       console.error('Error in playCommand:', error)
-      await interaction.reply(
-        'An error occurred while processing your request.',
-      )
+      await interaction.reply('Vấn đề kĩ thuật, mong bạn thông cảm :3')
     }
   },
 }
