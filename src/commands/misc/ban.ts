@@ -1,6 +1,6 @@
-import type { CommandInteraction, Client } from 'discord.js'
+import type { CommandInteraction } from 'discord.js'
 import type { CustomCommand } from '../../utils/types'
-
+import type { CustomClient } from '../../class/CustomClient'
 const banCommand: CustomCommand = {
   name: 'ban',
   description: 'Bans a user',
@@ -18,7 +18,7 @@ const banCommand: CustomCommand = {
       required: false,
     },
   ],
-  execute: async (client: Client, interaction: CommandInteraction) => {
+  execute: async (client: CustomClient, interaction: CommandInteraction) => {
     await interaction.deferReply()
     const reply = await interaction.editReply('Pong!')
     const ping = reply.createdTimestamp - interaction.createdTimestamp
@@ -26,4 +26,4 @@ const banCommand: CustomCommand = {
   },
 }
 
-export default banCommand;
+export default banCommand

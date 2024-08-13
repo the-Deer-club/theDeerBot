@@ -1,12 +1,16 @@
-import type { Client, CommandInteraction } from 'discord.js'
+import type { CommandInteraction } from 'discord.js'
 import type { EventEnum } from './enum'
+import type { CustomClient } from '../class/CustomClient'
 export type CustomCommand = {
   name: string
   description: string
   deleted?: boolean
   options?: CommandOptions[]
 
-  execute: (client: Client, interaction: CommandInteraction) => Promise<any>
+  execute: (
+    client: CustomClient,
+    interaction: CommandInteraction,
+  ) => Promise<any>
 }
 
 type CommandOptions = {

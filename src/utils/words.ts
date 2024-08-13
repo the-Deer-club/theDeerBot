@@ -130,6 +130,7 @@ const BAD_WORDS = [
   'dmcs',
   'ditmecondi',
   'ditmecondicho',
+  'mẹ',
   'đụ',
   'đụ mẹ',
   'đụ mịa',

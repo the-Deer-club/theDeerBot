@@ -1,4 +1,4 @@
-import type { Client, CommandInteraction, GuildMember } from 'discord.js'
+import type { CommandInteraction, GuildMember } from 'discord.js'
 import type { CustomCommand } from '../../utils/types'
 import type { CustomClient } from '../../class/CustomClient'
 import { EmbedBuilder } from 'discord.js'
@@ -12,60 +12,63 @@ const playCommand: CustomCommand = {
     {
       name: 'song',
       type: 3,
-      description: 'song to play',
+      description: 'Song to play',
       required: true,
     },
   ],
-  execute: async (client: Client, interaction: CommandInteraction) => {
+  execute: async (client: CustomClient, interaction: CommandInteraction) => {
     try {
       if (!interaction.isChatInputCommand()) return
 
-      const url = interaction.options.getString('song')
-      if (!url) {
-        return await interaction.reply('Please input your song!')
+      const song = interaction.options.getString('song')
+      if (!song) {
+        await interaction.reply('Please input your song!')
+        return
       }
 
       const member = interaction.member as GuildMember
       if (!member.voice.channel) {
-        return await interaction.reply(
-          'You need to join a voice channel first!',
-        )
+        await interaction.reply('You need to join a voice channel first!')
+        return
       }
-      const clientPlayer = (client as CustomClient).player
+
+      const clientPlayer = client.player
       await clientPlayer.extractors.register(YoutubeiExtractor, {})
-      let queue
-      if (interaction.guild) {
-        queue = clientPlayer.nodes.create(interaction.guild)
-      }
 
-      if (!queue?.connection) await queue?.connect(member.voice.channel)
+      const queue = interaction.guild
+        ? clientPlayer.nodes.create(interaction.guild)
+        : null
 
-      const embed = new EmbedBuilder()
-      const searchEngine = QueryType.AUTO
-      const result = await clientPlayer.search(url, {
+      if (queue && !queue.connection) await queue.connect(member.voice.channel)
+
+      const searchResult = await clientPlayer.search(song, {
         requestedBy: interaction.user,
-        searchEngine,
+        searchEngine: QueryType.AUTO,
       })
-      if (!result?.tracks?.length) {
+
+      if (!searchResult.tracks.length) {
         await interaction.reply('No results found!')
         return
       }
 
-      const song = result.tracks[0]
-      queue?.addTrack(song)
-      if (!queue?.isEmpty()) {
-        embed
-          .setDescription(`Added **[${song.title}]** to the queue`)
-          .setThumbnail(song.thumbnail)
-          .setFooter({ text: `Duration: ${song.duration}` })
-        await queue?.play(song)
+      const track = searchResult.tracks[0]
+      queue?.addTrack(track)
 
-        await interaction.reply({
-          embeds: [embed],
-        })
+      if (queue?.isEmpty()) {
+        await queue.play(track)
       }
+
+      const embed = new EmbedBuilder()
+        .setDescription(`Added **[${track.title}]** to the queue`)
+        .setThumbnail(track.thumbnail)
+        .setFooter({ text: `Duration: ${track.duration}` })
+
+      await interaction.reply({ embeds: [embed] })
     } catch (error) {
-      console.log(error)
+      console.error('Error in playCommand:', error)
+      await interaction.reply(
+        'An error occurred while processing your request.',
+      )
     }
   },
 }
