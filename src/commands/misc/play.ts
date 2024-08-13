@@ -39,31 +39,33 @@ const playCommand: CustomCommand = {
         ? clientPlayer.nodes.create(interaction.guild)
         : null
 
-      if (queue && !queue.connection) await queue.connect(member.voice.channel)
+      if (queue) {
+        if (!queue.connection) {
+          await queue.connect(member.voice.channel)
+        }
+        const searchResult = await clientPlayer.search(song, {
+          requestedBy: interaction.user,
+          searchEngine: QueryType.AUTO,
+        })
 
-      const searchResult = await clientPlayer.search(song, {
-        requestedBy: interaction.user,
-        searchEngine: QueryType.AUTO,
-      })
+        if (!searchResult.tracks.length) {
+          await interaction.reply('Không tìm thấy bài hát!')
+          return
+        }
 
-      if (!searchResult.tracks.length) {
-        await interaction.reply('Không tìm thấy bài hát!')
+        const track = searchResult.tracks[0]
+        queue?.addTrack(track)
+
+        await queue.play(track)
+
+        const embed = new EmbedBuilder()
+          .setDescription(`Added **[${track.title}]** to the queue`)
+          .setThumbnail(track.thumbnail)
+          .setFooter({ text: `Duration: ${track.duration}` })
+        await interaction.reply({ embeds: [embed] })
         return
       }
-
-      const track = searchResult.tracks[0]
-      queue?.addTrack(track)
-
-      if (queue?.isEmpty()) {
-        await queue.play(track)
-      }
-
-      const embed = new EmbedBuilder()
-        .setDescription(`Added **[${track.title}]** to the queue`)
-        .setThumbnail(track.thumbnail)
-        .setFooter({ text: `Duration: ${track.duration}` })
-
-      await interaction.reply({ embeds: [embed] })
+      await interaction.reply('Thêm bài hát thất bại!')
     } catch (error) {
       console.error('Error in playCommand:', error)
       await interaction.reply('Vấn đề kĩ thuật, mong bạn thông cảm :3')
