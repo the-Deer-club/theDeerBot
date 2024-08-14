@@ -30,6 +30,7 @@ jobs:
   deer-bot-deploy:
     name: Deploy Discord Bot
     runs-on: deer-mac
+    needs: [deer-bot-build]
     env:
       DISCORD_BOT_TOKEN: ${{secrets.DISCORD_BOT_TOKEN}}
       DISCORD_BOT_ID: ${{secrets.DISCORD_BOT_ID}}

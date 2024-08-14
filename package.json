@@ -1,16 +1,23 @@
 {
   "name": "thedeerbot",
   "version": "1.0.0",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf ./build && tsc",
     "start": "tsx --watch src/index.ts",
-    "start:dev": "npx nodemon"
+    "dev": "tsx --watch src/index.ts"
   },
   "dependencies": {
+    "@discord-player/extractor": "^4.5.0",
+    "@discordjs/opus": "^0.9.0",
+    "@discordjs/voice": "^0.17.0",
+    "discord-player": "^6.7.0",
+    "discord-player-youtubei": "^1.2.4",
     "discord.js": "^14.14.1",
-    "dotenv": "^16.4.4"
+    "dotenv": "^16.4.4",
+    "ffmpeg-static": "^5.2.0",
+    "ytdl-core": "^4.11.5"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.4.0",
@@ -21,7 +28,9 @@
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
     "eslint-plugin-promise": "^6.0.0",
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.4"
   },
   "keywords": [],
   "author": "Lamtailoi2 <lamtailoi11141@gmail.com>",
