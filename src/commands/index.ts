@@ -1,16 +1,16 @@
-import playCommand from './misc/play'
-import pingCommand from './misc/ping'
-import skipCommand from './misc/skip'
-import kickCommand from './misc/kick'
+import banCommand from './ban.command'
 import type { CustomCommand } from '../utils/types'
-import banCommand from './misc/ban'
+import kickCommand from './kick.command'
+import pingCommand from './ping.command'
+import playCommand from './play.command'
+import skipCommand from './skip.command'
 
 const commandList: CustomCommand[] = [
-  playCommand,
-  pingCommand,
-  skipCommand,
-  kickCommand,
   banCommand,
+  kickCommand,
+  pingCommand,
+  playCommand,
+  skipCommand,
 ]
 
 export default commandList
